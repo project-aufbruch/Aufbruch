@@ -1,6 +1,6 @@
 # AUFBRUCH 🎙️⚡
 
-> **Live Web Deployment**: [https://aufbruch.vercel.app/](https://aufbruch.vercel.app/)
+> **Live Web Deployment**: [https://aufbruch.com/](https://aufbruch.com/)
 
 **AUFBRUCH** is a decentralized, uncensorable public broadcasting Progressive Web App (PWA) engineered with Nostr WebSockets, IPFS media chunking, face blurring, voice pitch shifting, Proof-of-Work anti-bot mining, end-to-end encrypted WebRTC audio/video calls, and Duress Mode quick-wipe security.
 
