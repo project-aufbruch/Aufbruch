@@ -8,7 +8,7 @@
 
 ## 🌟 Key Features
 
-- **🌐 Live Production URL**: [https://aufbruch.vercel.app/](https://aufbruch.vercel.app/)
+- **🌐 Live Production URL**: [https://aufbruch.com/](https://aufbruch.com/)
 - **⚡ Nostr Relays**: Decentralized relay swarm for broadcasting uncensorable messages.
 - **📦 IPFS Media Chunking**: Distributed media streaming & hosting without central servers.
 - **🛡️ Identity Protection**: Real-time canvas face blurring and audio pitch shifting for broadcast security.
