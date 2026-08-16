@@ -1,6 +1,6 @@
 # AUFBRUCH 🎙️⚡
 
-> **Live Web Deployment**: [https://aufbruch.com/](https://aufbruch.com/)
+> **Live Web Deployment**: [https://aufbruch.org/](https://aufbruch.org/)
 
 **AUFBRUCH** is a decentralized, uncensorable public broadcasting Progressive Web App (PWA) engineered with Nostr WebSockets, IPFS media chunking, face blurring, voice pitch shifting, Proof-of-Work anti-bot mining, end-to-end encrypted WebRTC audio/video calls, and Duress Mode quick-wipe security.
 
@@ -8,7 +8,7 @@
 
 ## 🌟 Key Features
 
-- **🌐 Live Production URL**: [https://aufbruch.com/](https://aufbruch.com/)
+- **🌐 Live Production URL**: [https://aufbruch.org/](https://aufbruch.org/)
 - **⚡ Nostr Relays**: Decentralized relay swarm for broadcasting uncensorable messages.
 - **📦 IPFS Media Chunking**: Distributed media streaming & hosting without central servers.
 - **🛡️ Identity Protection**: Real-time canvas face blurring and audio pitch shifting for broadcast security.
@@ -43,7 +43,7 @@ npm run dev
 ## 🚀 Deployment
 
 This application is built for seamless single-page deployment on **Vercel**:
-- **Main URL**: [https://aufbruch.vercel.app/](https://aufbruch.vercel.app/)
+- **Main URL**: [[https://aufbruch.org/](https://aufbruch.org/
 - Configured with SPA rewrite rules in `vercel.json`.
 
 ---
