@@ -17,7 +17,7 @@ export class SealedBlastService {
 
   private loadBlasts() {
     try {
-      const saved = localStorage.getItem('voice_sealed_blasts');
+      const saved = localStorage.getItem('aufbruch_sealed_blasts') ?? localStorage.getItem('voice_sealed_blasts');
       if (saved) {
         this.blasts = JSON.parse(saved);
       }
@@ -26,7 +26,7 @@ export class SealedBlastService {
 
   private saveBlasts() {
     try {
-      localStorage.setItem('voice_sealed_blasts', JSON.stringify(this.blasts));
+      localStorage.setItem('aufbruch_sealed_blasts', JSON.stringify(this.blasts));
     } catch {}
     this.notify();
   }

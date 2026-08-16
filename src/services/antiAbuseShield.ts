@@ -50,7 +50,7 @@ export class AntiAbuseShieldService {
 
   private loadConfig(): ModerationConfig {
     try {
-      const saved = localStorage.getItem('voice_mod_config');
+      const saved = localStorage.getItem('aufbruch_mod_config') ?? localStorage.getItem('voice_mod_config');
       if (saved) return JSON.parse(saved);
     } catch {}
     return {
@@ -65,7 +65,7 @@ export class AntiAbuseShieldService {
 
   private loadBlocked(): BlockedEntity[] {
     try {
-      const saved = localStorage.getItem('voice_blocked_entities');
+      const saved = localStorage.getItem('aufbruch_blocked_entities') ?? localStorage.getItem('voice_blocked_entities');
       if (saved) return JSON.parse(saved);
     } catch {}
     return INITIAL_BLOCKED;
@@ -73,7 +73,7 @@ export class AntiAbuseShieldService {
 
   private loadReports(): AbuseReport[] {
     try {
-      const saved = localStorage.getItem('voice_abuse_reports');
+      const saved = localStorage.getItem('aufbruch_abuse_reports') ?? localStorage.getItem('voice_abuse_reports');
       if (saved) return JSON.parse(saved);
     } catch {}
     return [];
@@ -81,9 +81,9 @@ export class AntiAbuseShieldService {
 
   private saveState() {
     try {
-      localStorage.setItem('voice_mod_config', JSON.stringify(this.config));
-      localStorage.setItem('voice_blocked_entities', JSON.stringify(this.blockedEntities));
-      localStorage.setItem('voice_abuse_reports', JSON.stringify(this.abuseReports));
+      localStorage.setItem('aufbruch_mod_config', JSON.stringify(this.config));
+      localStorage.setItem('aufbruch_blocked_entities', JSON.stringify(this.blockedEntities));
+      localStorage.setItem('aufbruch_abuse_reports', JSON.stringify(this.abuseReports));
     } catch {}
     this.notify();
   }

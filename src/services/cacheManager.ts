@@ -111,7 +111,7 @@ class StorageCacheManager {
       }
     } catch {}
 
-    const localMetrics = getLocalStorageByteSize('pv_local_metrics');
+    const localMetrics = getLocalStorageByteSize('aufbruch_local_metrics');
     analyticsBytes += localMetrics.bytes;
 
     categories.push({
@@ -165,8 +165,8 @@ class StorageCacheManager {
     });
 
     // 5. Whistleblower Vault & Declassified Leaks (LocalStorage)
-    const vaultDocs = getLocalStorageByteSize('aufbruch_vault_docs');
-    const vaultComments = getLocalStorageByteSize('aufbruch_vault_comments');
+    const vaultDocs = getLocalStorageByteSize('aufbruch_whistleblower_vault_v1');
+    const vaultComments = getLocalStorageByteSize('aufbruch_whistleblower_comments_v1');
     const vaultTotalBytes = vaultDocs.bytes + vaultComments.bytes;
     const vaultTotalCount = vaultDocs.count + vaultComments.count;
     categories.push({
@@ -181,9 +181,9 @@ class StorageCacheManager {
     });
 
     // 6. Anti-Spam Fortress & Quarantine Logs (LocalStorage)
-    const quarantineInfo = getLocalStorageByteSize('pv_fortress_quarantine_log');
-    const blockedInfo = getLocalStorageByteSize('voice_blocked_entities');
-    const abuseInfo = getLocalStorageByteSize('voice_abuse_reports');
+    const quarantineInfo = getLocalStorageByteSize('aufbruch_spam_quarantine_v1');
+    const blockedInfo = getLocalStorageByteSize('aufbruch_blocked_entities');
+    const abuseInfo = getLocalStorageByteSize('aufbruch_abuse_reports');
     const spamTotalBytes = quarantineInfo.bytes + blockedInfo.bytes + abuseInfo.bytes;
     const spamTotalCount = quarantineInfo.count + blockedInfo.count + abuseInfo.count;
     categories.push({
@@ -198,7 +198,7 @@ class StorageCacheManager {
     });
 
     // 7. Offline Geo-Pins & Emergency Map (LocalStorage)
-    const emergencyPins = getLocalStorageByteSize('voice_emergency_pins');
+    const emergencyPins = getLocalStorageByteSize('aufbruch_emergency_pins');
     categories.push({
       id: 'emergency_pins',
       name: 'Offline Safe Zones & Geo-Pins',
@@ -211,8 +211,8 @@ class StorageCacheManager {
     });
 
     // 8. Ultrasonic Packets & Sealed Blasts
-    const ultrasonicPackets = getLocalStorageByteSize('voice_ultrasonic_packets');
-    const sealedBlasts = getLocalStorageByteSize('voice_sealed_blasts');
+    const ultrasonicPackets = getLocalStorageByteSize('aufbruch_ultrasonic_packets');
+    const sealedBlasts = getLocalStorageByteSize('aufbruch_sealed_blasts');
     const meshTotalBytes = ultrasonicPackets.bytes + sealedBlasts.bytes;
     const meshTotalCount = ultrasonicPackets.count + sealedBlasts.count;
     categories.push({
@@ -370,9 +370,11 @@ class StorageCacheManager {
         }
 
         case 'whistleblower_cache': {
-          const docs = getLocalStorageByteSize('aufbruch_vault_docs');
-          const comments = getLocalStorageByteSize('aufbruch_vault_comments');
+          const docs = getLocalStorageByteSize('aufbruch_whistleblower_vault_v1');
+          const comments = getLocalStorageByteSize('aufbruch_whistleblower_comments_v1');
           if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('aufbruch_whistleblower_vault_v1');
+            localStorage.removeItem('aufbruch_whistleblower_comments_v1');
             localStorage.removeItem('aufbruch_vault_docs');
             localStorage.removeItem('aufbruch_vault_comments');
           }
@@ -383,9 +385,12 @@ class StorageCacheManager {
         }
 
         case 'spam_quarantine': {
-          const q = getLocalStorageByteSize('pv_fortress_quarantine_log');
+          const q = getLocalStorageByteSize('aufbruch_spam_quarantine_v1');
           if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('aufbruch_spam_quarantine_v1');
             localStorage.removeItem('pv_fortress_quarantine_log');
+            localStorage.removeItem('aufbruch_blocked_entities');
+            localStorage.removeItem('aufbruch_abuse_reports');
           }
           reclaimedBytes += q.bytes;
           itemsPrunedCount += q.count;
@@ -394,8 +399,9 @@ class StorageCacheManager {
         }
 
         case 'emergency_pins': {
-          const pins = getLocalStorageByteSize('voice_emergency_pins');
+          const pins = getLocalStorageByteSize('aufbruch_emergency_pins');
           if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('aufbruch_emergency_pins');
             localStorage.removeItem('voice_emergency_pins');
           }
           reclaimedBytes += pins.bytes;
@@ -405,9 +411,11 @@ class StorageCacheManager {
         }
 
         case 'mesh_packets': {
-          const u = getLocalStorageByteSize('voice_ultrasonic_packets');
-          const s = getLocalStorageByteSize('voice_sealed_blasts');
+          const u = getLocalStorageByteSize('aufbruch_ultrasonic_packets');
+          const s = getLocalStorageByteSize('aufbruch_sealed_blasts');
           if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem('aufbruch_ultrasonic_packets');
+            localStorage.removeItem('aufbruch_sealed_blasts');
             localStorage.removeItem('voice_ultrasonic_packets');
             localStorage.removeItem('voice_sealed_blasts');
           }

@@ -28,8 +28,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/p2p-deployer/aufbruch.git
-cd aufbruch
+git clone https://github.com/project-aufbruch/Aufbruch.git
+cd Aufbruch
 
 # Install dependencies
 npm install

@@ -12,8 +12,8 @@ class NotificationService {
 
   constructor() {
     try {
-      const savedSound = localStorage.getItem('voice_sound_enabled');
-      const savedNotifs = localStorage.getItem('voice_notifs_enabled');
+      const savedSound = localStorage.getItem('aufbruch_sound_enabled') ?? localStorage.getItem('voice_sound_enabled');
+      const savedNotifs = localStorage.getItem('aufbruch_notifs_enabled') ?? localStorage.getItem('voice_notifs_enabled');
       if (savedSound !== null) this.soundEnabled = savedSound === 'true';
       if (savedNotifs !== null) this.notificationsEnabled = savedNotifs === 'true';
     } catch {
@@ -42,7 +42,7 @@ class NotificationService {
   public setSoundEnabled(enabled: boolean) {
     this.soundEnabled = enabled;
     try {
-      localStorage.setItem('voice_sound_enabled', String(enabled));
+      localStorage.setItem('aufbruch_sound_enabled', String(enabled));
     } catch {}
   }
 
@@ -53,7 +53,7 @@ class NotificationService {
   public setNotificationsEnabled(enabled: boolean) {
     this.notificationsEnabled = enabled;
     try {
-      localStorage.setItem('voice_notifs_enabled', String(enabled));
+      localStorage.setItem('aufbruch_notifs_enabled', String(enabled));
     } catch {}
   }
 

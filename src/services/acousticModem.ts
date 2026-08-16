@@ -36,7 +36,7 @@ export class AcousticModemService {
 
   private loadCachedPackets() {
     try {
-      const saved = localStorage.getItem('voice_ultrasonic_packets');
+      const saved = localStorage.getItem('aufbruch_ultrasonic_packets') ?? localStorage.getItem('voice_ultrasonic_packets');
       if (saved) {
         this.receivedPackets = JSON.parse(saved);
       }
@@ -45,7 +45,7 @@ export class AcousticModemService {
 
   private savePackets() {
     try {
-      localStorage.setItem('voice_ultrasonic_packets', JSON.stringify(this.receivedPackets.slice(0, 50)));
+      localStorage.setItem('aufbruch_ultrasonic_packets', JSON.stringify(this.receivedPackets.slice(0, 50)));
     } catch {}
     this.notify();
   }

@@ -109,7 +109,7 @@ export class EmergencyMapService {
 
   private loadPins() {
     try {
-      const saved = localStorage.getItem('voice_emergency_pins');
+      const saved = localStorage.getItem('aufbruch_emergency_pins') ?? localStorage.getItem('voice_emergency_pins');
       if (saved) {
         this.pins = JSON.parse(saved);
       } else {
@@ -122,7 +122,7 @@ export class EmergencyMapService {
 
   private savePins() {
     try {
-      localStorage.setItem('voice_emergency_pins', JSON.stringify(this.pins));
+      localStorage.setItem('aufbruch_emergency_pins', JSON.stringify(this.pins));
     } catch {}
     this.notify();
   }

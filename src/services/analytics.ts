@@ -89,7 +89,7 @@ export async function getLocalMetrics(): Promise<LocalImpactMetrics> {
           resolve(req.result as LocalImpactMetrics);
         } else {
           // Fallback check localStorage
-          const local = localStorage.getItem('pv_local_metrics');
+          const local = localStorage.getItem('aufbruch_local_metrics') ?? localStorage.getItem('pv_local_metrics');
           if (local) {
             try {
               resolve(JSON.parse(local));
@@ -107,7 +107,7 @@ export async function getLocalMetrics(): Promise<LocalImpactMetrics> {
     });
   } catch {
     // Fallback to localStorage or default
-    const local = localStorage.getItem('pv_local_metrics');
+    const local = localStorage.getItem('aufbruch_local_metrics') ?? localStorage.getItem('pv_local_metrics');
     if (local) {
       try {
         return JSON.parse(local);
@@ -122,7 +122,7 @@ export async function getLocalMetrics(): Promise<LocalImpactMetrics> {
 async function saveMetricsToDB(metrics: LocalImpactMetrics): Promise<void> {
   // Sync to localStorage as backup
   try {
-    localStorage.setItem('pv_local_metrics', JSON.stringify(metrics));
+    localStorage.setItem('aufbruch_local_metrics', JSON.stringify(metrics));
   } catch {}
 
   try {
