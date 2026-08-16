@@ -1,0 +1,6 @@
+{
+  "name": "AUFBRUCH",
+  "description": "Decentralized uncensorable platform for government accountability, whistleblower vault, anti-spam fortress, face blurring, and voice pitch shifting.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

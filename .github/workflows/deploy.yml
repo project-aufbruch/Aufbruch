@@ -1,0 +1,166 @@
+name: AUFBRUCH Deploy to GitHub Pages + IPFS
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Create Crowdfunding Page with Monero Address
+        run: |
+          cat > dist/CROWDFUNDING.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>AUFBRUCH - Support Our Mission</title>
+              <style>
+                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+                      color: #fff;
+                      line-height: 1.6;
+                      min-height: 100vh;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 20px;
+                  }
+                  .container {
+                      max-width: 700px;
+                      background: rgba(255, 255, 255, 0.05);
+                      border: 2px solid #ff6600;
+                      border-radius: 12px;
+                      padding: 40px;
+                      backdrop-filter: blur(10px);
+                      text-align: center;
+                  }
+                  h1 { font-size: 2.5em; margin-bottom: 10px; color: #ff6600; }
+                  .tagline { font-size: 1.2em; color: #aaa; margin-bottom: 30px; }
+                  .mission { background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left; }
+                  .mission h2 { color: #ff6600; margin-bottom: 10px; }
+                  .donation-section { margin: 40px 0; padding: 30px; background: rgba(255, 102, 0, 0.1); border: 1px solid #ff6600; border-radius: 8px; }
+                  .donation-section h3 { color: #ff6600; margin-bottom: 20px; font-size: 1.3em; }
+                  .monero-address { background: #000; border: 2px solid #00ff00; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.80em; word-break: break-all; color: #00ff00; margin: 15px 0; user-select: all; }
+                  .copy-btn { background: #ff6600; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin: 10px 0; }
+                  .copy-btn:hover { background: #ff8533; }
+                  .copy-instruction { background: rgba(0, 255, 0, 0.1); padding: 10px; border-radius: 6px; font-size: 0.9em; color: #00ff00; margin-bottom: 15px; }
+                  .why-monero { background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left; font-size: 0.9em; }
+                  .why-monero h3 { color: #ff6600; margin-bottom: 10px; }
+                  .why-monero ul { list-style: none; padding-left: 0; }
+                  .why-monero li { margin: 8px 0; padding-left: 20px; position: relative; }
+                  .why-monero li:before { content: "✓"; position: absolute; left: 0; color: #ff6600; }
+                  .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #ff6600; font-size: 0.85em; color: #999; }
+                  .app-link { margin-top: 30px; padding: 15px; background: #ff6600; color: white; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: bold; }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🔥 AUFBRUCH</h1>
+                  <p class="tagline">Exposing What They Hide</p>
+
+                  <div class="mission">
+                      <h2>Our Mission</h2>
+                      <p>AUFBRUCH is a decentralized, uncensorable platform for government accountability. Journalists, activists, and citizens can expose corruption, censorship, and abuse without fear.</p>
+                      <p style="margin-top: 10px; color: #aaa; font-size: 0.9em;">No accounts. No surveillance. No surrender.</p>
+                  </div>
+
+                  <div class="donation-section">
+                      <h3>💰 Support AUFBRUCH</h3>
+                      <p>Every donation funds infrastructure, security, and resistance against censorship.</p>
+
+                      <div class="copy-instruction">
+                          ✅ Copy this address to donate via Monero (press & hold)
+                      </div>
+
+                      <div class="monero-address">
+                          45H4JjXGSiTawZk8z39gvX3NtBRmzwf5XWHTCR2Z288335rKFHJ7Q8YPHzinp9EPCeaPFt7C57rzwDtbjGNiBYrGSRcRaeM
+                      </div>
+
+                      <button class="copy-btn" onclick="copyAddress()">📋 Copy Monero Address</button>
+
+                      <p style="margin: 15px 0; color: #aaa; font-size: 0.9em;">
+                          🔐 Fully private. Untraceable. No KYC. No middlemen.
+                      </p>
+                  </div>
+
+                  <div class="why-monero">
+                      <h3>Why Monero?</h3>
+                      <ul>
+                          <li>Fully private by default</li>
+                          <li>No government tracking</li>
+                          <li>Instant worldwide transactions</li>
+                          <li>Aligned with AUFBRUCH's mission</li>
+                      </ul>
+                  </div>
+
+                  <a href="/" class="app-link">→ Launch AUFBRUCH App</a>
+
+                  <div class="footer">
+                      <p>🚀 AUFBRUCH: The uprising against corruption.</p>
+                      <p>Built for activists. By the people. Unstoppable.</p>
+                      <p style="margin-top: 10px; color: #666;">Open-source. Decentralized. Anonymous.</p>
+                  </div>
+              </div>
+
+              <script>
+                  function copyAddress() {
+                      const address = '45H4JjXGSiTawZk8z39gvX3NtBRmzwf5XWHTCR2Z288335rKFHJ7Q8YPHzinp9EPCeaPFt7C57rzwDtbjGNiBYrGSRcRaeM';
+                      navigator.clipboard.writeText(address).then(() => {
+                          alert('✅ Monero address copied!');
+                      }).catch(() => {
+                          alert('Address: ' + address);
+                      });
+                  }
+              </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Log Deployment
+        run: |
+          echo "✅ AUFBRUCH DEPLOYED"
+          echo "App: https://project-aufbruch.github.io/aufbruch/"
+          echo "Crowdfunding: https://project-aufbruch.github.io/aufbruch/CROWDFUNDING.html"

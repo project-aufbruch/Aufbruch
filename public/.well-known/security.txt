@@ -1,0 +1,4 @@
+Contact: mailto:aufbruch-security@proton.me
+Expires: 2026-12-31T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://aufbruch.org/.well-known/security.txt

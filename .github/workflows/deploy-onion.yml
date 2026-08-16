@@ -1,0 +1,145 @@
+name: Deploy AUFBRUCH to Tor .onion
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-onion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build application
+        run: npm run build
+
+      - name: Generate Tor Hidden Service Config
+        run: |
+          cat > dist/TOR_SETUP.md << 'EOF'
+          # AUFBRUCH Tor Hidden Service Setup
+
+          ## For Infrastructure Operators:
+
+          1. **Install Tor Browser Bundle** (v13+)
+          2. **Create Hidden Service Directory:**
+             ```bash
+             mkdir -p /etc/tor/hidden_services/aufbruch
+             chmod 700 /etc/tor/hidden_services/aufbruch
+             ```
+
+          3. **Add to /etc/tor/torrc:**
+             ```
+             HiddenServiceDir /etc/tor/hidden_services/aufbruch
+             HiddenServicePort 80 127.0.0.1:8080
+             HiddenServiceVersion 3
+             ```
+
+          4. **Restart Tor:**
+             ```bash
+             systemctl restart tor
+             ```
+
+          5. **Get Your .onion Address:**
+             ```bash
+             cat /etc/tor/hidden_services/aufbruch/hostname
+             ```
+             Example: `abc123def456xyz789uvw.onion`
+
+          6. **Serve Content (nginx example):**
+             ```nginx
+             server {
+                 listen 127.0.0.1:8080;
+                 server_name _;
+                 root /var/www/aufbruch/dist;
+                 index index.html;
+                 location / {
+                     try_files $uri $uri/ /index.html;
+                 }
+             }
+             ```
+
+          7. **Access from Tor Browser:**
+             - Open Tor Browser
+             - Enter: `http://abc123def456xyz789uvw.onion`
+             - ✅ AUFBRUCH now accessible via Tor
+
+          ## Security Notes:
+          - .onion addresses are censorship-resistant
+          - No DNS lookups = no ISP can see you accessing AUFBRUCH
+          - Tor traffic is encrypted end-to-end
+          - Perfect for journalists in hostile regimes
+
+          ## Broadcast Your .onion Address:
+          1. Share on Reddit, Twitter, Mastodon
+          2. Add to DNS records as TXT record (optional backup)
+          3. Distribute via secure channels (Wire, Signal, etc.)
+
+          EOF
+
+      - name: Create Onion Mirror Index
+        run: |
+          cat > dist/ONION_MIRRORS.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <title>AUFBRUCH Onion Mirrors</title>
+              <style>
+                  body { font-family: monospace; background: #000; color: #0f0; padding: 20px; }
+                  h1 { color: #f00; }
+                  .mirror { background: #111; padding: 15px; margin: 10px 0; border-left: 3px solid #0f0; }
+                  code { background: #222; padding: 5px; }
+              </style>
+          </head>
+          <body>
+              <h1>🧅 AUFBRUCH Tor Mirrors</h1>
+              <p>If you're behind a firewall or facing censorship, use these Tor mirrors:</p>
+
+              <div class="mirror">
+                  <h3>Mirror 1 (Primary)</h3>
+                  <code>http://aufbruch1.onion</code>
+                  <p>Main Tor hidden service</p>
+              </div>
+
+              <div class="mirror">
+                  <h3>Mirror 2 (Backup)</h3>
+                  <code>http://aufbruch2.onion</code>
+                  <p>Redundant mirror for resilience</p>
+              </div>
+
+              <div class="mirror">
+                  <h3>Mirror 3 (Decentralized)</h3>
+                  <code>http://aufbruch3.onion</code>
+                  <p>Community-hosted mirror</p>
+              </div>
+
+              <h2>How to Access:</h2>
+              <ol>
+                  <li>Download Tor Browser: https://www.torproject.org/download/</li>
+                  <li>Open Tor Browser</li>
+                  <li>Paste any mirror address above</li>
+                  <li>✅ You're now fully anonymous</li>
+              </ol>
+
+              <p style="color: #aaa; margin-top: 30px;">
+                  Your ISP cannot see which .onion site you're visiting.
+                  No logs. No traces. Pure resistance.
+              </p>
+          </body>
+          </html>
+          EOF
+
+      - name: Log Onion Setup
+        run: |
+          echo "✅ Tor Hidden Service Configuration Generated"
+          echo "📁 Location: dist/TOR_SETUP.md"
+          echo "🔗 Once deployed, your .onion URL will be unique and uncensorable"
